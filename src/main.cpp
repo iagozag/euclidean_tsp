@@ -1,17 +1,20 @@
-#include <bits/stdc++.h>
-#include "Utils.h"
-using namespace std;
+#include <iostream>
+
+#include "TSP.h"
 
 #define _ ios_base::sync_with_stdio(0);cin.tie(0);
-#define endl '\n'
-#define int ll
 
-typedef long long ll;
+int main(int argc, char* argv[]){ _
+	if (argc < 2) {
+		cout << "How to use: ./main <file>" << endl;
+		exit(0);
+	}
 
-const int INF = 0x3f3f3f3f3f3f3f3fll;
+    TSP tsp;
+    string filename = "examples/"; filename += argv[1];
+    if(!tsp.get_input(filename)) exit(0);
 
-int32_t main(){ _
-
+    tsp.build();
 
     exit(0);
 }
