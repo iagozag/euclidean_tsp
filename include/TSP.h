@@ -1,25 +1,24 @@
 #ifndef TSP_H
 #define TSP_H
 
-#include <string>
-#include <vector>
-#include <fstream>
-
-#include "Utils.h"
+#include "Graph.h"
 
 class TSP{
     private:
-        int N;
         vector<long double> x;
         vector<long double> y;
 
-        vector<vector<ll>> g;
+        Graph g;
 
     public:
 
         bool get_input(string filename);
 
-        void build();
+        void build_graph();
+
+        void get_mins();
+
+        ll bnb();
 };
 
 #endif

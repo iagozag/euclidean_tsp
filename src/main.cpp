@@ -14,7 +14,9 @@ int main(int argc, char* argv[]){ _
     string filename = "examples/"; filename += argv[1];
     if(!tsp.get_input(filename)) exit(0);
 
-    tsp.build();
+    tsp.build_graph();
+
+    cout << tsp.bnb() << endl;
 
     exit(0);
 }
