@@ -39,7 +39,7 @@ void TwiceAroundTheTree::build(vector<vector<ll>> &adjj) {
             addEdge(i, j, adjj[i][j]);
 }
 
-void TwiceAroundTheTree::solve() {
+void TwiceAroundTheTree::solve(vector<vector<ll>> &adjj) {
     sort(e.begin(),e.end());
 
     adj.resize(father.size());
@@ -47,17 +47,18 @@ void TwiceAroundTheTree::solve() {
     for(auto i:e) {
         int u = find(i.u), v = find(i.v);
         if(u!=v) {
-            adj[i.u].push_back({i.v,i.w});
-            adj[i.v].push_back({i.u,i.w});
+            adj[i.u].push_back(i.v);
+            adj[i.v].push_back(i.u);
             un--;
             unionSet(i.u, i.v);
             if(un==1) break;
         }
     }
+
     vector<int> seq;
     vector<bool> vis(adj.size(),false);
-    dfs(0,vis,seq);
-    cost+=adj[seq.back()][0].second;
+    dfs(adjj,0,vis,seq);
+    cost+=adjj[seq.back()][0];
     seq.push_back(0);
 
     cout << "cost: " << cost << "\nseq: " << seq.front() << ' ';
@@ -66,13 +67,12 @@ void TwiceAroundTheTree::solve() {
     
 }
 
-void TwiceAroundTheTree::dfs(int v, vector<bool> &vis, vector<int> &seq) {
+void TwiceAroundTheTree::dfs(vector<vector<ll>> &adjj,int v, vector<bool> &vis, vector<int> &seq) {
     vis[v] = true;
+    if(seq.size()) cost+=adjj[seq.back()][v];
     seq.push_back(v);
-
     for(auto u:adj[v]) {
-        if(vis[u.first]) continue;
-        cost+=u.second;
-        dfs(u.first,vis,seq);
+        if(vis[u]) continue;
+        dfs(adjj,u,vis,seq);
     }
 }
