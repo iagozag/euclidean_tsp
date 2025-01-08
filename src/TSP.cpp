@@ -41,8 +41,6 @@ ll TSP::bnb(){
     int n = g.size();
 
     auto bnb_rec = [&](auto&& self, ll bound, ll cost, int level, int last, vector<bool>& vis) -> void {
-        cout << bound << ' ' << best << ' ' << cost << ' ' << level << ' ' << last << endl;
-
         if(level == n-1) best = min(best, cost+g.dist2d(last, 0));
         else{
             for(int i = 0; i < n; i++) if(!vis[i]){
