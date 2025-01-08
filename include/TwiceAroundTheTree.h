@@ -2,30 +2,18 @@
 #define TATT_H
 
 #include "TSP.h"
+#include <climits>
+#include <cmath>
 
 struct Edge {
-    int u;
-    int v;
-    ll w;
+    ll w=LLONG_MAX;
+    int to=-1;
     bool operator<(const Edge &o);
+    bool operator<(const Edge o);
 };
 
-class TwiceAroundTheTree{
-    private:
-        vector<int> father, r;
-        vector<Edge> e;
-        vector<vector<int>> adj;
-        ll cost=0;
-
-        int find(int v);
-        void unionSet(int u, int v);
-        void dfs(vector<vector<ll>> &adj,int v, vector<bool> &vis, vector<int> &seq);
-    public:
-        TwiceAroundTheTree(int n);
-        ~TwiceAroundTheTree();
-        void addEdge(int u, int v, ll w);
-        void build(vector<vector<ll>> &adj);
-        void solve(vector<vector<ll>> &adj);
-};
+ll dist2d(long double x1, long double y1, long double x2, long double y2);
+ll dfs(vector<vector<int>> &adj,int v, vector<int> &seq,int p,vector<long double> &x, vector<long double> &y);
+void solve(vector<long double> &x, vector<long double> &y);
 
 #endif

@@ -1,78 +1,56 @@
 #include "../include/TwiceAroundTheTree.h"
 
-#include <algorithm>
-
-bool Edge::operator<(const Edge &o) {
-    return w<o.w;
+bool operator<(const Edge x,const Edge o) {
+    return x.w<o.w;
 }
 
-TwiceAroundTheTree::TwiceAroundTheTree(int n) {
-    father.resize(n);
-    r.resize(n,0);
-    for(int i=0;i<n;i++) father[i] = i; 
+ll dist2d(long double x1, long double y1, long double x2, long double y2){
+    long double xd = x1-x2;
+    long double yd = y1-y2;
+    return (ll)(sqrt(xd*xd+yd*yd)+0.5);
 }
 
-TwiceAroundTheTree::~TwiceAroundTheTree() {}
+void solve(vector<long double> &x, vector<long double> &y) {
+    int n = x.size();
+    vector<bool> sel(n, false);
+    vector<Edge> min_e(n);
+    min_e[0].w = 0;
+    vector<vector<int>> adj(n);
 
-int TwiceAroundTheTree::find(int v) {
-    if(v==father[v]) return v;
-    return father[v] = find(father[v]);
-}
+    for(int i=0;i<n;i++) {
+        int v = -1;
+        for(int j=0;j<n;j++) 
+            if((not sel[j]) and (v==-1 or min_e[j].w<min_e[v].w)) v = j;
 
-void TwiceAroundTheTree::unionSet(int u, int v) {
-    u = find(u);
-    v = find(v);
-    if(u!=v) {
-        if(r[u]<r[v]) swap(u,v);
-        father[v] = u;
-        if(r[u]==r[v]) r[u]++;
-    }
-}
+        sel[v] = true;
+        if(min_e[v].to!=-1) { 
+            adj[v].push_back(min_e[v].to);
+            adj[min_e[v].to].push_back(v);
+        }
 
-void TwiceAroundTheTree::addEdge(int u, int v, ll w) {
-    e.emplace_back(u,v,w);
-}
-
-void TwiceAroundTheTree::build(vector<vector<ll>> &adjj) {
-    for(unsigned long long i=0;i<adjj.size();i++) 
-        for(unsigned long long j=i+1;j<adjj.size();j++) 
-            addEdge(i, j, adjj[i][j]);
-}
-
-void TwiceAroundTheTree::solve(vector<vector<ll>> &adjj) {
-    sort(e.begin(),e.end());
-
-    adj.resize(father.size());
-    int un=adj.size();
-    for(auto i:e) {
-        int u = find(i.u), v = find(i.v);
-        if(u!=v) {
-            adj[i.u].push_back(i.v);
-            adj[i.v].push_back(i.u);
-            un--;
-            unionSet(i.u, i.v);
-            if(un==1) break;
+        for(int to=0;to<n;to++) {
+            auto dist = dist2d(x[v],y[v],x[to],y[to]);
+            if(dist<min_e[to].w) min_e[to] = {dist, v};
         }
     }
 
     vector<int> seq;
-    vector<bool> vis(adj.size(),false);
-    dfs(adjj,0,vis,seq);
-    cost+=adjj[seq.back()][0];
+    ll cost = dfs(adj,0,seq,-1,x,y);
+    cost+=dist2d(x[0],y[0],x[seq.back()],y[seq.back()]);
     seq.push_back(0);
-
-    cout << "cost: " << cost << "\nseq: " << seq.front() << ' ';
+    cout << cost << '\n';
+    cout << "seq:\n0";
     for(int i=1;i<(int)seq.size();i++) cout << " -> " << seq[i];
     cout << '\n';
-    
 }
 
-void TwiceAroundTheTree::dfs(vector<vector<ll>> &adjj,int v, vector<bool> &vis, vector<int> &seq) {
-    vis[v] = true;
-    if(seq.size()) cost+=adjj[seq.back()][v];
+ll dfs(vector<vector<int>> &adj,int v, vector<int> &seq,int p,vector<long double> &x, vector<long double> &y) {
+    ll r=0;    
+    if(seq.size()) r=dist2d(x[v],y[v],x[seq.back()],y[seq.back()]);//  adj[seq.back()][v];
     seq.push_back(v);
     for(auto u:adj[v]) {
-        if(vis[u]) continue;
-        dfs(adjj,u,vis,seq);
+        if(u==p) continue;
+        r+=dfs(adj,u,seq,v, x,y);
     }
+    return r;
 }
