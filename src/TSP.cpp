@@ -31,26 +31,32 @@ void TSP::build_graph(){
 }
 
 ll TSP::bnb(){
-    priority_queue<tuple<ll, int, ll, set<int>, int>> pq;
+    priority_queue<tuple<ll, int, ll, vector<bool>, int>> pq;
 
     vector<pair<int, int>> mins = g.get_mins(); int sum = 0;
     for(auto [a, b]: mins) sum += (a+b)/2;
 
-    pq.push({-sum, 0, 0, set<int>({0}), 0});
+    int n = g.size();
+    pq.push({-sum, 0, 0, vector<bool>(n), 0});
     
-    ll best = LINF; int n = g.size();
+    ll best = LINF;
     while(!pq.empty()){
         auto [bound, level, cost, vis, last] = pq.top(); pq.pop(); bound *= -1;
+        cout << bound << ' ' << best << endl;
         if(bound < best){
             if(level == n-1) best = min(best, cost+g.dist2d(last, 0));
             else{
-                for(int k = 0; k < n; k++) if(!vis.count(k)){
-                    if(!level) bound -= (mins[last].first+mins[k].first)/2;
-                    else bound -= (mins[last].second+mins[k].first)/2;
-                    bound += g.dist2d(last, k);
+                for(int k = 0; k < n; k++) if(!vis[k]){
+                    ll new_bound = bound;
+                    if(!level) new_bound -= (mins[last].first+mins[k].first)/2;
+                    else new_bound -= (mins[last].second+mins[k].first)/2;
+                    new_bound += g.dist2d(last, k);
 
-                    vis.insert(k);
-                    pq.push({-bound, level+1, cost+g.dist2d(last, k), vis, k});
+                    if(new_bound < best){
+                        vis[k] = 1;
+                        pq.push({-new_bound, level+1, cost+g.dist2d(last, k), vis, k});
+                        vis[k] = 0;
+                    }
                 }
             }
         }
