@@ -10,7 +10,11 @@ class TSP{
 
         Graph g;
 
+        ll best;
+
     public:
+
+        TSP();
 
         bool get_input(string filename);
 
