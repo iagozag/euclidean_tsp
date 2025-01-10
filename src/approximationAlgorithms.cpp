@@ -68,7 +68,7 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
 
     vector<int> odd;
     for(int i=0;i<(int)x.size();i++) 
-        if(adj[i].size()&1LL) odd.push_back(i);
+        if(adj[i].size()&1ULL) odd.push_back(i);
 
     // lemon::MaxWeightedPerfectMatching<typename GR>
 }
