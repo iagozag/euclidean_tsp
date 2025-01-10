@@ -1,5 +1,10 @@
 #include "../include/approximationAlgorithms.h"
-#include "../include/matching.h"
+
+#include <lemon/matching.h>
+#include <lemon/full_graph.h>
+#include <lemon/maps.h>
+
+using namespace lemon;
 
 bool operator<(const Edge x,const Edge o) {
     return x.w<o.w;
@@ -31,7 +36,7 @@ void makeMST(vector<vector<int>> &adj, vector<long double> &x, vector<long doubl
 
         for(int to=0;to<n;to++) {
             auto dist = dist2d(x[v],y[v],x[to],y[to]);
-            if(dist<min_e[to].w) min_e[to] = {dist, v};
+            if(dist<min_e[to].w) min_e[to].w = dist, min_e[to].to = v;
         }
     }
 }
@@ -64,11 +69,45 @@ ll dfs(vector<vector<int>> &adj,int v, vector<int> &seq,int p,vector<long double
 
 void Christofides(vector<long double> &x, vector<long double> &y) {
     vector<vector<int>> adj;
+    int n = x.size();
     makeMST(adj,x,y);
 
     vector<int> odd;
-    for(int i=0;i<(int)x.size();i++) 
+    for(int i=0;i<n;i++) 
         if(adj[i].size()&1ULL) odd.push_back(i);
 
-    // lemon::MaxWeightedPerfectMatching<typename GR>
+    FullGraph g(odd.size());
+    typedef FullGraph::EdgeMap<ll> WeightMap;
+    WeightMap weight(g);
+
+    ll w = LLONG_MIN;
+    for(unsigned long long i=0;i<odd.size();i++) 
+        for(auto j = i+1;j<odd.size();j++) 
+            w = max(w,dist2d(x[odd[i]],y[odd[i]],x[odd[j]],y[odd[j]]));
+    int i=0,j;
+
+    for(FullGraph::NodeIt u(g); u != INVALID; ++u,i++){
+        j=0;
+        for(FullGraph::NodeIt v(g); v != INVALID; ++v,j++) {
+            if(j>i and u!=v) {
+                FullGraph::Edge e = g.edge(u, v);
+                weight[e] = w-dist2d(x[odd[i]],y[odd[i]],x[odd[j]],y[odd[j]]);
+            }
+        }
+    }
+
+    MaxWeightedPerfectMatching<FullGraph, WeightMap> matching(g, weight);
+    matching.run();
+
+    ll totalCost = 0;
+    for (FullGraph::NodeIt u(g); u != INVALID; ++u) {
+        FullGraph::Node v = matching.mate(u);
+        if (v != INVALID && g.id(u) < g.id(v)) {  // Print each edge once
+            cout << "(" << g.id(u) << ", " << g.id(v) << ") - Cost: " << w-weight[g.edge(u, v)] << endl;
+            totalCost += w-weight[g.edge(u, v)];
+        }
+    }
+
+    cout << "Total Minimum Cost: " << totalCost << endl;
+
 }
