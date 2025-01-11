@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/graph_test.dir/link.d"
   "CMakeFiles/graph_test.dir/graph_test.cc.o"
   "CMakeFiles/graph_test.dir/graph_test.cc.o.d"
   "graph_test"

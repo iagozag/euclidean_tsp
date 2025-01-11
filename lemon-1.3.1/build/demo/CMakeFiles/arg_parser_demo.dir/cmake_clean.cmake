@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/arg_parser_demo.dir/link.d"
   "CMakeFiles/arg_parser_demo.dir/arg_parser_demo.cc.o"
   "CMakeFiles/arg_parser_demo.dir/arg_parser_demo.cc.o.d"
   "arg_parser_demo"

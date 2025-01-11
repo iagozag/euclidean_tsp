@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/arc_look_up_test.dir/link.d"
   "CMakeFiles/arc_look_up_test.dir/arc_look_up_test.cc.o"
   "CMakeFiles/arc_look_up_test.dir/arc_look_up_test.cc.o.d"
   "arc_look_up_test"

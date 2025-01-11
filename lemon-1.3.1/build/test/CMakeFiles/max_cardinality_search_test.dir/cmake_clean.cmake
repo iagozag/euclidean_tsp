@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/max_cardinality_search_test.dir/link.d"
   "CMakeFiles/max_cardinality_search_test.dir/max_cardinality_search_test.cc.o"
   "CMakeFiles/max_cardinality_search_test.dir/max_cardinality_search_test.cc.o.d"
   "max_cardinality_search_test"

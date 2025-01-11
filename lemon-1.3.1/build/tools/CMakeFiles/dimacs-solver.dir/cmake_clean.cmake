@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/dimacs-solver.dir/link.d"
   "CMakeFiles/dimacs-solver.dir/dimacs-solver.cc.o"
   "CMakeFiles/dimacs-solver.dir/dimacs-solver.cc.o.d"
   "dimacs-solver"

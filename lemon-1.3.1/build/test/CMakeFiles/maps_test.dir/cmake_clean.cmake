@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/maps_test.dir/link.d"
   "CMakeFiles/maps_test.dir/maps_test.cc.o"
   "CMakeFiles/maps_test.dir/maps_test.cc.o.d"
   "maps_test"

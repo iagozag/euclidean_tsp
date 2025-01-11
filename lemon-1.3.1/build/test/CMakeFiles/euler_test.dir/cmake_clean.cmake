@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/euler_test.dir/link.d"
   "CMakeFiles/euler_test.dir/euler_test.cc.o"
   "CMakeFiles/euler_test.dir/euler_test.cc.o.d"
   "euler_test"

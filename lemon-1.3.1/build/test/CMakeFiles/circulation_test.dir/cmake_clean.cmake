@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/circulation_test.dir/link.d"
   "CMakeFiles/circulation_test.dir/circulation_test.cc.o"
   "CMakeFiles/circulation_test.dir/circulation_test.cc.o.d"
   "circulation_test"

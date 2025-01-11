@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/lgf_demo.dir/link.d"
   "CMakeFiles/lgf_demo.dir/lgf_demo.cc.o"
   "CMakeFiles/lgf_demo.dir/lgf_demo.cc.o.d"
   "lgf_demo"

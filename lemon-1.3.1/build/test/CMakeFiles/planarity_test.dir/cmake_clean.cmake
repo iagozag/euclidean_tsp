@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/planarity_test.dir/link.d"
   "CMakeFiles/planarity_test.dir/planarity_test.cc.o"
   "CMakeFiles/planarity_test.dir/planarity_test.cc.o.d"
   "planarity_test"

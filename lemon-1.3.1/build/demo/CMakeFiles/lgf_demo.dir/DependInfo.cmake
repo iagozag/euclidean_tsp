@@ -8,12 +8,16 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/mnt/c/Users/Manuel/Desktop/coisas/42/alg2/euclidian_tsp/lemon-1.3.1/demo/lgf_demo.cc" "demo/CMakeFiles/lgf_demo.dir/lgf_demo.cc.o" "gcc" "demo/CMakeFiles/lgf_demo.dir/lgf_demo.cc.o.d"
+  "/home/ventoy/documents/school/ufmg/programmingSubjects/ALG2/euclidean_tsp/lemon-1.3.1/demo/lgf_demo.cc" "demo/CMakeFiles/lgf_demo.dir/lgf_demo.cc.o" "gcc" "demo/CMakeFiles/lgf_demo.dir/lgf_demo.cc.o.d"
+  "" "demo/lgf_demo" "gcc" "demo/CMakeFiles/lgf_demo.dir/link.d"
   )
 
-# Targets to which this target links.
-set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/mnt/c/Users/Manuel/Desktop/coisas/42/alg2/euclidian_tsp/lemon-1.3.1/build/lemon/CMakeFiles/lemon.dir/DependInfo.cmake"
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/dijkstra_test.dir/link.d"
   "CMakeFiles/dijkstra_test.dir/dijkstra_test.cc.o"
   "CMakeFiles/dijkstra_test.dir/dijkstra_test.cc.o.d"
   "dijkstra_test"

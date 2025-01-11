@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/nagamochi_ibaraki_test.dir/link.d"
   "CMakeFiles/nagamochi_ibaraki_test.dir/nagamochi_ibaraki_test.cc.o"
   "CMakeFiles/nagamochi_ibaraki_test.dir/nagamochi_ibaraki_test.cc.o.d"
   "nagamochi_ibaraki_test"

@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/heap_test.dir/link.d"
   "CMakeFiles/heap_test.dir/heap_test.cc.o"
   "CMakeFiles/heap_test.dir/heap_test.cc.o.d"
   "heap_test"

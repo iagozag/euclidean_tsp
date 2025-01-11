@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/max_clique_test.dir/link.d"
   "CMakeFiles/max_clique_test.dir/max_clique_test.cc.o"
   "CMakeFiles/max_clique_test.dir/max_clique_test.cc.o.d"
   "max_clique_test"

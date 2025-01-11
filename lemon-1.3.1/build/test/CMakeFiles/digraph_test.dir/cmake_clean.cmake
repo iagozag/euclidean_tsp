@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/digraph_test.dir/link.d"
   "CMakeFiles/digraph_test.dir/digraph_test.cc.o"
   "CMakeFiles/digraph_test.dir/digraph_test.cc.o.d"
   "digraph_test"

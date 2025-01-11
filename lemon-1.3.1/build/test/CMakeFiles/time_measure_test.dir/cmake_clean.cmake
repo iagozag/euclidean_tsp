@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/time_measure_test.dir/link.d"
   "CMakeFiles/time_measure_test.dir/time_measure_test.cc.o"
   "CMakeFiles/time_measure_test.dir/time_measure_test.cc.o.d"
   "time_measure_test"

@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/unionfind_test.dir/link.d"
   "CMakeFiles/unionfind_test.dir/unionfind_test.cc.o"
   "CMakeFiles/unionfind_test.dir/unionfind_test.cc.o.d"
   "unionfind_test"

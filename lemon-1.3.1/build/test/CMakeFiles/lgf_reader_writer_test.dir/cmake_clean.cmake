@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/lgf_reader_writer_test.dir/link.d"
   "CMakeFiles/lgf_reader_writer_test.dir/lgf_reader_writer_test.cc.o"
   "CMakeFiles/lgf_reader_writer_test.dir/lgf_reader_writer_test.cc.o.d"
   "lgf_reader_writer_test"

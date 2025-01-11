@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/bpgraph_test.dir/link.d"
   "CMakeFiles/bpgraph_test.dir/bpgraph_test.cc.o"
   "CMakeFiles/bpgraph_test.dir/bpgraph_test.cc.o.d"
   "bpgraph_test"

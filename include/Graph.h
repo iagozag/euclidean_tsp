@@ -32,6 +32,8 @@ class Graph{
 
         ll dist2d(int a, int b);
 
+        ll get(int a, int b);
+
         void build();
 
         int size();

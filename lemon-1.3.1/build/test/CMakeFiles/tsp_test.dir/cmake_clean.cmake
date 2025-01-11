@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/tsp_test.dir/link.d"
   "CMakeFiles/tsp_test.dir/tsp_test.cc.o"
   "CMakeFiles/tsp_test.dir/tsp_test.cc.o.d"
   "tsp_test"

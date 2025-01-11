@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/adaptors_test.dir/link.d"
   "CMakeFiles/adaptors_test.dir/adaptors_test.cc.o"
   "CMakeFiles/adaptors_test.dir/adaptors_test.cc.o.d"
   "adaptors_test"

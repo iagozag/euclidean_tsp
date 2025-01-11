@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/matching_test.dir/link.d"
   "CMakeFiles/matching_test.dir/matching_test.cc.o"
   "CMakeFiles/matching_test.dir/matching_test.cc.o.d"
   "matching_test"

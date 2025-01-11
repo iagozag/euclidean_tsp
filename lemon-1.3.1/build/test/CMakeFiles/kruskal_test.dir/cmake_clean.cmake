@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/kruskal_test.dir/link.d"
   "CMakeFiles/kruskal_test.dir/kruskal_test.cc.o"
   "CMakeFiles/kruskal_test.dir/kruskal_test.cc.o.d"
   "kruskal_test"

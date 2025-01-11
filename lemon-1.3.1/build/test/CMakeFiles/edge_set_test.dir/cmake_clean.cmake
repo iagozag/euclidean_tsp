@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/edge_set_test.dir/link.d"
   "CMakeFiles/edge_set_test.dir/edge_set_test.cc.o"
   "CMakeFiles/edge_set_test.dir/edge_set_test.cc.o.d"
   "edge_set_test"

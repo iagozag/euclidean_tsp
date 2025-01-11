@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/connectivity_test.dir/link.d"
   "CMakeFiles/connectivity_test.dir/connectivity_test.cc.o"
   "CMakeFiles/connectivity_test.dir/connectivity_test.cc.o.d"
   "connectivity_test"

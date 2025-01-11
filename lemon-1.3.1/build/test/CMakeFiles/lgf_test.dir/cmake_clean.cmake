@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/lgf_test.dir/link.d"
   "CMakeFiles/lgf_test.dir/lgf_test.cc.o"
   "CMakeFiles/lgf_test.dir/lgf_test.cc.o.d"
   "lgf_test"

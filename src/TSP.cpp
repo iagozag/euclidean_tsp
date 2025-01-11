@@ -20,6 +20,7 @@ bool TSP::get_input(string filename){
 
     int j;
     for(int i = 0; i < n; i++) file >> j >> x[j-1] >> y[j-1];
+    file >> word;
 
     g = Graph(n, x, y);
 
@@ -36,29 +37,30 @@ ll TSP::bnb(){
     best = LINF;
 
     vector<pair<int, int>> mins = g.get_mins(); int sum = 0;
-    for(auto [a, b]: mins) sum += (a+b)/2;
+    for(auto [a, b]: mins) sum += a+b;
+    sum = (sum+1)/2;
 
     int n = g.size();
 
     auto bnb_rec = [&](auto&& self, ll bound, ll cost, int level, int last, vector<bool>& vis) -> void {
-        if(level == n-1) best = min(best, cost+g.dist2d(last, 0));
+        if(level == n-1) best = min(best, cost+g.get(last, 0));
         else{
             for(int i = 0; i < n; i++) if(!vis[i]){
                 ll new_bound = bound;
-                if(!level) new_bound -= (mins[last].first+mins[i].first)/2;
-                else new_bound -= (mins[last].second+mins[i].first)/2;
-                new_bound += g.dist2d(last, i);
+                if(!level) new_bound -= (mins[last].first+mins[i].first+1)/2;
+                else new_bound -= (mins[last].second+mins[i].first+1)/2;
+                new_bound += g.get(last, i);
 
                 if(new_bound < best){
                     vis[i] = 1;
-                    self(self, new_bound, cost+g.dist2d(last, i), level+1, i, vis);
+                    self(self, new_bound, cost+g.get(last, i), level+1, i, vis);
                     vis[i] = 0;
                 }
             }
         }
     };
 
-    vector<bool> vis(n);
+    vector<bool> vis(n); vis[0] = 1;
     bnb_rec(bnb_rec, sum, 0, 0, 0, vis);
 
     return best;

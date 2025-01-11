@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/hao_orlin_test.dir/link.d"
   "CMakeFiles/hao_orlin_test.dir/hao_orlin_test.cc.o"
   "CMakeFiles/hao_orlin_test.dir/hao_orlin_test.cc.o.d"
   "hao_orlin_test"

@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/dfs_test.dir/link.d"
   "CMakeFiles/dfs_test.dir/dfs_test.cc.o"
   "CMakeFiles/dfs_test.dir/dfs_test.cc.o.d"
   "dfs_test"

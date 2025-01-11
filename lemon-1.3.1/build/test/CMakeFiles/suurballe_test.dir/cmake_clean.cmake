@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/suurballe_test.dir/link.d"
   "CMakeFiles/suurballe_test.dir/suurballe_test.cc.o"
   "CMakeFiles/suurballe_test.dir/suurballe_test.cc.o.d"
   "suurballe_test"

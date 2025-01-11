@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/min_mean_cycle_test.dir/link.d"
   "CMakeFiles/min_mean_cycle_test.dir/min_mean_cycle_test.cc.o"
   "CMakeFiles/min_mean_cycle_test.dir/min_mean_cycle_test.cc.o.d"
   "min_mean_cycle_test"
