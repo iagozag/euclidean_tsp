@@ -2,7 +2,6 @@
 
 #include <lemon/matching.h>
 #include <lemon/full_graph.h>
-#include <lemon/maps.h>
 
 using namespace lemon;
 
@@ -46,25 +45,25 @@ void TwiceAroundTheTree(vector<long double> &x, vector<long double> &y) {
     makeMST(adj,x, y);
 
     vector<int> seq;
-    ll cost = dfs(adj,0,seq,-1,x,y);
+    auto dfs = [&](auto &&self,int v, int p) -> ll {
+        ll r=0;
+        if(seq.size()) r=dist2d(x[v],y[v],x[seq.back()],y[seq.back()]);
+        seq.push_back(v);
+        for(auto u:adj[v]) {
+            if(u==p) continue;
+            r+=self(self,u,v);
+        }
+        return r;
+    };
+
+    ll cost = dfs(dfs,0,-1);
     cost+=dist2d(x[0],y[0],x[seq.back()],y[seq.back()]);
     seq.push_back(0);
     cout << cost << '\n';
-    cout << "seq:\n0";
-    for(int i=1;i<(int)seq.size();i++) cout << " -> " << seq[i];
+    // cout << "seq:\n0";
+    // for(int i=1;i<(int)seq.size();i++) cout << " -> " << seq[i];
     cout << '\n';
 
-}
-
-ll dfs(vector<vector<int>> &adj,int v, vector<int> &seq,int p,vector<long double> &x, vector<long double> &y) {
-    ll r=0;    
-    if(seq.size()) r=dist2d(x[v],y[v],x[seq.back()],y[seq.back()]);//  adj[seq.back()][v];
-    seq.push_back(v);
-    for(auto u:adj[v]) {
-        if(u==p) continue;
-        r+=dfs(adj,u,seq,v, x,y);
-    }
-    return r;
 }
 
 void Christofides(vector<long double> &x, vector<long double> &y) {
@@ -73,23 +72,25 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
     makeMST(adj,x,y);
 
     vector<int> odd;
+    map<int,int> mapVertex;
     for(int i=0;i<n;i++) 
         if(adj[i].size()&1ULL) odd.push_back(i);
-
-    FullGraph g(odd.size());
-    typedef FullGraph::EdgeMap<ll> WeightMap;
-    WeightMap weight(g);
 
     ll w = LLONG_MIN;
     for(unsigned long long i=0;i<odd.size();i++) 
         for(auto j = i+1;j<odd.size();j++) 
             w = max(w,dist2d(x[odd[i]],y[odd[i]],x[odd[j]],y[odd[j]]));
-    int i=0,j;
+    
+    FullGraph g(odd.size());
+    typedef FullGraph::EdgeMap<ll> WeightMap;
+    WeightMap weight(g);
 
+    int i=0,j;
     for(FullGraph::NodeIt u(g); u != INVALID; ++u,i++){
+        mapVertex.insert(make_pair(g.id(u),odd[i]));
         j=0;
         for(FullGraph::NodeIt v(g); v != INVALID; ++v,j++) {
-            if(j>i and u!=v) {
+            if(j>i) {
                 FullGraph::Edge e = g.edge(u, v);
                 weight[e] = w-dist2d(x[odd[i]],y[odd[i]],x[odd[j]],y[odd[j]]);
             }
@@ -99,15 +100,34 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
     MaxWeightedPerfectMatching<FullGraph, WeightMap> matching(g, weight);
     matching.run();
 
-    ll totalCost = 0;
     for (FullGraph::NodeIt u(g); u != INVALID; ++u) {
         FullGraph::Node v = matching.mate(u);
         if (v != INVALID && g.id(u) < g.id(v)) {  // Print each edge once
-            cout << "(" << g.id(u) << ", " << g.id(v) << ") - Cost: " << w-weight[g.edge(u, v)] << endl;
-            totalCost += w-weight[g.edge(u, v)];
+            adj[mapVertex[g.id(u)]].push_back(mapVertex[g.id(v)]);
+            adj[mapVertex[g.id(v)]].push_back(mapVertex[g.id(u)]);
         }
     }
 
-    cout << "Total Minimum Cost: " << totalCost << endl;
+    vector<bool> vis(x.size(),false);
+    vector<int> seq;
 
+    auto dfs = [&](auto && self,int v) -> void {
+        vis[v] = true;
+        seq.push_back(v);
+        for(auto u:adj[v]) {
+            if(vis[u]) continue;
+            self(self,u);
+        }
+    };
+
+    dfs(dfs,0);
+    seq.push_back(0);
+    ll cost=0;
+    for(unsigned long long i=1;i<seq.size();i++) cost += dist2d(x[seq[i-1]],y[seq[i-1]],x[seq[i]],y[seq[i]]);
+    cout << "Cost: " << cost << '\n';
+    // for(unsigned long long i=0ULL;i<seq.size();i++) {
+    //     if(i) cout << " -> " << seq[i];
+    //     else cout << seq[i];
+    // }
+    // cout << '\n';
 }
