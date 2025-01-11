@@ -12,7 +12,7 @@ struct Edge {
 };
 
 ll dist2d(long double x1, long double y1, long double x2, long double y2);
-void makeMST(vector<vector<int>> &adj, vector<long double> &x, vector<long double> &y);
+void makeMST(vector<multiset<int>> &adj,vector<long double> &x,vector<long double> &y);
 void TwiceAroundTheTree(vector<long double> &x, vector<long double> &y);
 
 void Christofides(vector<long double> &x, vector<long double> &y);

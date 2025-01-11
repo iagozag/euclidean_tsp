@@ -15,7 +15,7 @@ ll dist2d(long double x1, long double y1, long double x2, long double y2){
     return (ll)(sqrt(xd*xd+yd*yd)+0.5);
 }
 
-void makeMST(vector<vector<int>> &adj, vector<long double> &x, vector<long double> &y) {
+void makeMST(vector<multiset<int>> &adj, vector<long double> &x, vector<long double> &y) {
     int n = x.size();
     vector<bool> sel(n, false);
     vector<Edge> min_e(n);
@@ -29,8 +29,8 @@ void makeMST(vector<vector<int>> &adj, vector<long double> &x, vector<long doubl
 
         sel[v] = true;
         if(min_e[v].to!=-1) { 
-            adj[v].push_back(min_e[v].to);
-            adj[min_e[v].to].push_back(v);
+            adj[v].insert(min_e[v].to);
+            adj[min_e[v].to].insert(v);
         }
 
         for(int to=0;to<n;to++) {
@@ -41,7 +41,7 @@ void makeMST(vector<vector<int>> &adj, vector<long double> &x, vector<long doubl
 }
 
 void TwiceAroundTheTree(vector<long double> &x, vector<long double> &y) {
-    vector<vector<int>> adj;
+    vector<multiset<int>> adj;
     makeMST(adj,x, y);
 
     vector<int> seq;
@@ -67,7 +67,7 @@ void TwiceAroundTheTree(vector<long double> &x, vector<long double> &y) {
 }
 
 void Christofides(vector<long double> &x, vector<long double> &y) {
-    vector<vector<int>> adj;
+    vector<multiset<int>> adj;
     int n = x.size();
     makeMST(adj,x,y);
 
@@ -103,27 +103,50 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
     for (FullGraph::NodeIt u(g); u != INVALID; ++u) {
         FullGraph::Node v = matching.mate(u);
         if (v != INVALID && g.id(u) < g.id(v)) {  // Print each edge once
-            adj[mapVertex[g.id(u)]].push_back(mapVertex[g.id(v)]);
-            adj[mapVertex[g.id(v)]].push_back(mapVertex[g.id(u)]);
+            adj[mapVertex[g.id(u)]].insert(mapVertex[g.id(v)]);
+            adj[mapVertex[g.id(v)]].insert(mapVertex[g.id(u)]);
         }
     }
-
-    vector<bool> vis(x.size(),false);
-    vector<int> seq;
-
-    auto dfs = [&](auto && self,int v) -> void {
-        vis[v] = true;
-        seq.push_back(v);
-        for(auto u:adj[v]) {
-            if(vis[u]) continue;
-            self(self,u);
+    
+    int init=0;
+    auto dfs = [&](auto && self,int v,list<int> &path,int p=-1) -> void {
+        if(p!=-1 and v==init) return;
+        else if(p!=-1) 
+        path.push_back(v);
+        if(adj[v].size()==0ULL) {
+            cout << "ERRO!!!!\n";
         }
+        int next = *adj[v].begin();
+        adj[v].erase(adj[v].begin());
+        adj[next].erase(adj[next].lower_bound(v));
+        self(self,next,path,v);
     };
 
-    dfs(dfs,0);
-    seq.push_back(0);
+    list<int> p;
+    dfs(dfs,0,p);
+
+    for(auto it = p.begin();it!=p.end();it++) {
+        if(adj[*it].size()) {
+            list<int> p2;
+            init = *it;
+            dfs(dfs,*it,p2);
+            for(auto i:p2) p.insert(it,i);
+        }
+    }
+    
+    vector<bool> oc(n,false);
+    for(auto it = p.begin();it!=p.end();) {
+        if(oc[*it]) it = p.erase(it);
+        else {
+            oc[*it] = true;
+            it++;
+        }
+    }
+    p.push_back(0);
+    cout << "Size: " << p.size() << '\n';
     ll cost=0;
-    for(unsigned long long i=1;i<seq.size();i++) cost += dist2d(x[seq[i-1]],y[seq[i-1]],x[seq[i]],y[seq[i]]);
+    for(auto it = next(p.begin());it!=p.end();it++) 
+        cost += dist2d(x[*it],y[*it],x[*prev(it)],y[*prev(it)]);
     cout << "Cost: " << cost << '\n';
     // for(unsigned long long i=0ULL;i<seq.size();i++) {
     //     if(i) cout << " -> " << seq[i];
