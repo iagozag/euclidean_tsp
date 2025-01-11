@@ -85,7 +85,7 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
     typedef FullGraph::EdgeMap<ll> WeightMap;
     WeightMap weight(g);
 
-    int i=0,j;
+    {int i=0,j;
     for(FullGraph::NodeIt u(g); u != INVALID; ++u,i++){
         mapVertex.insert(make_pair(g.id(u),odd[i]));
         j=0;
@@ -95,11 +95,11 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
                 weight[e] = w-dist2d(x[odd[i]],y[odd[i]],x[odd[j]],y[odd[j]]);
             }
         }
-    }
+    }}
 
     MaxWeightedPerfectMatching<FullGraph, WeightMap> matching(g, weight);
     matching.run();
-
+    cout << "terminou matching\n";
     for (FullGraph::NodeIt u(g); u != INVALID; ++u) {
         FullGraph::Node v = matching.mate(u);
         if (v != INVALID && g.id(u) < g.id(v)) {  // Print each edge once
@@ -110,9 +110,8 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
     
     int init=0;
     auto dfs = [&](auto && self,int v,list<int> &path,int p=-1) -> void {
+        if(p!=-1) path.push_back(p);
         if(p!=-1 and v==init) return;
-        else if(p!=-1) 
-        path.push_back(v);
         if(adj[v].size()==0ULL) {
             cout << "ERRO!!!!\n";
         }
@@ -130,7 +129,9 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
             list<int> p2;
             init = *it;
             dfs(dfs,*it,p2);
-            for(auto i:p2) p.insert(it,i);
+            p2.push_front(init);
+            auto i2 = next(it);
+            for(auto i :p2) p.insert(i2,i);
         }
     }
     
@@ -148,9 +149,9 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
     for(auto it = next(p.begin());it!=p.end();it++) 
         cost += dist2d(x[*it],y[*it],x[*prev(it)],y[*prev(it)]);
     cout << "Cost: " << cost << '\n';
-    // for(unsigned long long i=0ULL;i<seq.size();i++) {
-    //     if(i) cout << " -> " << seq[i];
-    //     else cout << seq[i];
+    // for(auto i = p.begin();i!=p.end();i++) {
+    //     if(i!=p.begin()) cout << " -> " << *i;
+    //     else cout << *i;
     // }
     // cout << '\n';
 }
