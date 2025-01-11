@@ -66,11 +66,8 @@ void TwiceAroundTheTree(vector<long double> &x, vector<long double> &y) {
 
 }
 
-void Christofides(vector<long double> &x, vector<long double> &y) {
-    vector<multiset<int>> adj;
+void makeMatching(vector<long double> &x, vector<long double> &y, vector<multiset<int>> &adj) {
     int n = x.size();
-    makeMST(adj,x,y);
-
     vector<int> odd;
     map<int,int> mapVertex;
     for(int i=0;i<n;i++) 
@@ -99,7 +96,7 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
 
     MaxWeightedPerfectMatching<FullGraph, WeightMap> matching(g, weight);
     matching.run();
-    cout << "terminou matching\n";
+
     for (FullGraph::NodeIt u(g); u != INVALID; ++u) {
         FullGraph::Node v = matching.mate(u);
         if (v != INVALID && g.id(u) < g.id(v)) {  // Print each edge once
@@ -107,21 +104,21 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
             adj[mapVertex[g.id(v)]].insert(mapVertex[g.id(u)]);
         }
     }
-    
+}
+
+void makeHamiltonianCycle(vector<multiset<int>> &adj,list<int> &p) {
+    int n = adj.size();
     int init=0;
-    auto dfs = [&](auto && self,int v,list<int> &path,int p=-1) -> void {
-        if(p!=-1) path.push_back(p);
-        if(p!=-1 and v==init) return;
-        if(adj[v].size()==0ULL) {
-            cout << "ERRO!!!!\n";
-        }
+
+    auto dfs = [&](auto && self,int v,list<int> &path,int ant=-1) -> void {
+        if(ant!=-1) path.push_back(ant);
+        if(ant!=-1 and v==init) return;
         int next = *adj[v].begin();
         adj[v].erase(adj[v].begin());
         adj[next].erase(adj[next].lower_bound(v));
         self(self,next,path,v);
     };
 
-    list<int> p;
     dfs(dfs,0,p);
 
     for(auto it = p.begin();it!=p.end();it++) {
@@ -144,7 +141,17 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
         }
     }
     p.push_back(0);
-    cout << "Size: " << p.size() << '\n';
+}
+
+void Christofides(vector<long double> &x, vector<long double> &y) {
+    vector<multiset<int>> adj;
+
+    makeMST(adj,x,y);
+    makeMatching(x,y,adj);
+    
+    list<int> p;
+    makeHamiltonianCycle(adj,p);
+
     ll cost=0;
     for(auto it = next(p.begin());it!=p.end();it++) 
         cost += dist2d(x[*it],y[*it],x[*prev(it)],y[*prev(it)]);
