@@ -88,6 +88,8 @@ def main():
             'x':0.5,
             'xanchor': 'center'
         },
+        xaxis_title='Approximation to optimal cost (cost found/optimal)',
+        yaxis_title='Number of occurences',
         width=750,
         height=700,
         bargap=0,
