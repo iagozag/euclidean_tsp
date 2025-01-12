@@ -1,7 +1,9 @@
 #include "../include/approximationAlgorithms.h"
 
+#include <fstream>
 #include <lemon/matching.h>
 #include <lemon/full_graph.h>
+#include <chrono>
 
 using namespace lemon;
 
@@ -40,29 +42,35 @@ void makeMST(vector<multiset<int>> &adj, vector<long double> &x, vector<long dou
     }
 }
 
+void dfsTATT(vector<long double> &x,vector<long double> &y,vector<multiset<int>> &adj,vector<int> &seq,int v, int p) {
+    seq.push_back(v);
+    for(auto u:adj[v]) {
+        if(u==p) continue;
+        dfsTATT(x,y,adj,seq,u,v);
+    }
+}
+
 void TwiceAroundTheTree(vector<long double> &x, vector<long double> &y) {
+    chrono::time_point begin = std::chrono::high_resolution_clock::now();
     vector<multiset<int>> adj;
     makeMST(adj,x, y);
 
     vector<int> seq;
-    auto dfs = [&](auto &&self,int v, int p) -> ll {
-        ll r=0;
-        if(seq.size()) r=dist2d(x[v],y[v],x[seq.back()],y[seq.back()]);
-        seq.push_back(v);
-        for(auto u:adj[v]) {
-            if(u==p) continue;
-            r+=self(self,u,v);
-        }
-        return r;
-    };
-
-    ll cost = dfs(dfs,0,-1);
-    cost+=dist2d(x[0],y[0],x[seq.back()],y[seq.back()]);
+    dfsTATT(x,y,adj,seq,0,-1);
+    ll cost = 0;
     seq.push_back(0);
-    cout << cost << '\n';
+    for(auto i=0ULL;i<x.size();i++)
+        cost+=dist2d(x[seq[i]],y[seq[i]],x[seq[i+1]],y[seq[i+1]]);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+
+    ofstream f("data/tatt.txt", ofstream::app);
+    f << x.size() << ' ' << cost << ' ' << duration.count() << '\n';
+    f.close();
     // cout << "seq:\n0";
     // for(int i=1;i<(int)seq.size();i++) cout << " -> " << seq[i];
-    cout << '\n';
+    // cout << '\n';
 
 }
 
@@ -82,7 +90,7 @@ void makeMatching(vector<long double> &x, vector<long double> &y, vector<multise
     typedef FullGraph::EdgeMap<ll> WeightMap;
     WeightMap weight(g);
 
-    {int i=0,j;
+    int i=0,j;
     for(FullGraph::NodeIt u(g); u != INVALID; ++u,i++){
         mapVertex.insert(make_pair(g.id(u),odd[i]));
         j=0;
@@ -92,7 +100,7 @@ void makeMatching(vector<long double> &x, vector<long double> &y, vector<multise
                 weight[e] = w-dist2d(x[odd[i]],y[odd[i]],x[odd[j]],y[odd[j]]);
             }
         }
-    }}
+    }
 
     MaxWeightedPerfectMatching<FullGraph, WeightMap> matching(g, weight);
     matching.run();
@@ -106,27 +114,24 @@ void makeMatching(vector<long double> &x, vector<long double> &y, vector<multise
     }
 }
 
+void dfsHamCyc(vector<multiset<int>> &adj, int v, list<int> &path,int init,int ant) {
+    if(ant!=-1) path.push_back(ant);
+    if(ant!=-1 and v==init) return;
+    int next = *adj[v].begin();
+    adj[v].erase(adj[v].begin());
+    adj[next].erase(adj[next].lower_bound(v));
+    dfsHamCyc(adj,next,path,init,v);
+}
+
 void makeHamiltonianCycle(vector<multiset<int>> &adj,list<int> &p) {
     int n = adj.size();
-    int init=0;
-
-    auto dfs = [&](auto && self,int v,list<int> &path,int ant=-1) -> void {
-        if(ant!=-1) path.push_back(ant);
-        if(ant!=-1 and v==init) return;
-        int next = *adj[v].begin();
-        adj[v].erase(adj[v].begin());
-        adj[next].erase(adj[next].lower_bound(v));
-        self(self,next,path,v);
-    };
-
-    dfs(dfs,0,p);
+    dfsHamCyc(adj,0,p,0);
 
     for(auto it = p.begin();it!=p.end();it++) {
         if(adj[*it].size()) {
             list<int> p2;
-            init = *it;
-            dfs(dfs,*it,p2);
-            p2.push_front(init);
+            dfsHamCyc(adj,*it,p2,*it);
+            p2.push_front(*it);
             auto i2 = next(it);
             for(auto i :p2) p.insert(i2,i);
         }
@@ -144,6 +149,8 @@ void makeHamiltonianCycle(vector<multiset<int>> &adj,list<int> &p) {
 }
 
 void Christofides(vector<long double> &x, vector<long double> &y) {
+    auto begin = chrono::high_resolution_clock::now();
+
     vector<multiset<int>> adj;
 
     makeMST(adj,x,y);
@@ -155,7 +162,14 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
     ll cost=0;
     for(auto it = next(p.begin());it!=p.end();it++) 
         cost += dist2d(x[*it],y[*it],x[*prev(it)],y[*prev(it)]);
-    cout << "Cost: " << cost << '\n';
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+
+    ofstream f("data/christofides.txt", ofstream::app);
+    f << x.size() << ' ' << cost << ' ' << duration.count() << '\n';
+    f.close();
+    // cout << "Cost: " << cost << '\n';
     // for(auto i = p.begin();i!=p.end();i++) {
     //     if(i!=p.begin()) cout << " -> " << *i;
     //     else cout << *i;
