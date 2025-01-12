@@ -59,8 +59,11 @@ def main():
         xaxis=dict(showline=True, linewidth=2, linecolor='black'),  # Border around the x-axis
         yaxis=dict(showline=True, linewidth=2, linecolor='black'),
     )
+    # plotly.offline.plot(fig, filename='images/SizeXTime_'+s+'.png')
 
-    plotly.offline.plot(fig, filename='images/SizeXTime_'+s+'.html')
+    image_bytes = fig.to_image(format="png")
+    with open('images/SizeXTime_'+s+'.png', "wb") as f:
+        f.write(image_bytes)
 
     rate = []
     for i in optimal:
@@ -100,6 +103,9 @@ def main():
         xaxis=dict(showline=True, linewidth=2, linecolor='black'),  # Border around the x-axis
         yaxis=dict(showline=True, linewidth=2, linecolor='black')
     )
-    plotly.offline.plot(fig, filename='images/AverageApproximation_'+s+'.html')
+    image_bytes = fig.to_image(format="png")
+    with open('images/AverageApproximation_'+s+'.png', "wb") as f:
+        f.write(image_bytes)
+    # plotly.offline.plot(fig, filename='images/AverageApproximation_'+s+'.png')
 
 if __name__ == '__main__': main()
