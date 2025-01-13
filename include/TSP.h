@@ -3,6 +3,8 @@
 
 #include "Graph.h"
 
+#include <chrono>
+
 class TSP{
     private:
         vector<long double> x;

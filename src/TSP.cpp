@@ -34,6 +34,8 @@ void TSP::build_graph(){
 }
 
 ll TSP::bnb(){
+    auto begin = chrono::high_resolution_clock::now();
+
     best = LINF;
 
     vector<pair<int, int>> mins = g.get_mins(); int sum = 0;
@@ -62,6 +64,13 @@ ll TSP::bnb(){
 
     vector<bool> vis(n); vis[0] = 1;
     bnb_rec(bnb_rec, sum, 0, 0, 0, vis);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+
+    ofstream f("data/bnb.txt", ofstream::app);
+    f << n << ' ' << best << ' ' << duration.count() << '\n';
+    f.close();
 
     return best;
 }
