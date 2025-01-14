@@ -41,26 +41,27 @@ int main(int argc, char* argv[]){
     get_input(filename,x,y);
 
     switch(opt) {
-        case 1:{
+        case 1: {
+            TSP tsp;
+            if(!tsp.get_input(filename)) exit(0);
+            tsp.build_graph();
+            cout << tsp.bnb() << endl;
+            break;
+        }
+        case 2:{
             ofstream f("data/tatt.txt",ofstream::app);
             f << filename.substr(9) << ' ';
             f.close();
             TwiceAroundTheTree(x,y);
             break;
         }
-        case 2: {
+        case 3: {
             ofstream f("data/christofides.txt",ofstream::app);
             f << filename.substr(9) << ' ';
             f.close();
             Christofides(x,y);
             break;
         }
-        case 3:
-            TSP tsp;
-            if(!tsp.get_input(filename)) exit(0);
-            tsp.build_graph();
-            cout << tsp.bnb() << endl;
-            break;
     }
 
     exit(0);

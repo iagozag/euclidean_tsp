@@ -24,6 +24,8 @@ class TSP{
 
         void get_mins();
 
+        void bnb_rec(ll bound,ll cost,int level,int last,vector<bool>& vis,vector<pair<int, int>> &mins);
+
         ll bnb();
 };
 

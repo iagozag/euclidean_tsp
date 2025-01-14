@@ -33,37 +33,38 @@ void TSP::build_graph(){
     g.build();
 }
 
+void TSP::bnb_rec(ll bound, ll cost, int level, int last, vector<bool>& vis,vector<pair<int, int>> &mins) {
+    int n = g.size();
+    if(level == n-1) best = min(best, cost+g.get(last, 0));
+    else{
+        for(int i = 0; i < n; i++) if(!vis[i]){
+            ll new_bound = bound;
+            if(!level) new_bound -= (mins[last].first+mins[i].first+1)/2;
+            else new_bound -= (mins[last].second+mins[i].first+1)/2;
+            new_bound += g.get(last, i);
+
+            if(new_bound < best){
+                vis[i] = 1;
+                bnb_rec(new_bound, cost+g.get(last, i), level+1, i, vis,mins);
+                vis[i] = 0;
+            }
+        }
+    }
+}
 ll TSP::bnb(){
     auto begin = chrono::high_resolution_clock::now();
 
     best = LINF;
 
     vector<pair<int, int>> mins = g.get_mins(); int sum = 0;
-    for(auto [a, b]: mins) sum += a+b;
+    for(auto p: mins) sum += p.first+p.second;
     sum = (sum+1)/2;
 
     int n = g.size();
 
-    auto bnb_rec = [&](auto&& self, ll bound, ll cost, int level, int last, vector<bool>& vis) -> void {
-        if(level == n-1) best = min(best, cost+g.get(last, 0));
-        else{
-            for(int i = 0; i < n; i++) if(!vis[i]){
-                ll new_bound = bound;
-                if(!level) new_bound -= (mins[last].first+mins[i].first+1)/2;
-                else new_bound -= (mins[last].second+mins[i].first+1)/2;
-                new_bound += g.get(last, i);
-
-                if(new_bound < best){
-                    vis[i] = 1;
-                    self(self, new_bound, cost+g.get(last, i), level+1, i, vis);
-                    vis[i] = 0;
-                }
-            }
-        }
-    };
 
     vector<bool> vis(n); vis[0] = 1;
-    bnb_rec(bnb_rec, sum, 0, 0, 0, vis);
+    bnb_rec(sum, 0, 0, 0, vis,mins);
 
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);

@@ -6,7 +6,7 @@ TARGET := main
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -g -Wall -O3 -Wshadow -std=c++17 -Wno-unused-result -Wno-sign-compare -Wno-char-subscripts
+CFLAGS := -g -Wall -O3 -Wshadow -std=c++11 -Wno-unused-result -Wno-sign-compare -Wno-char-subscripts
 INC := -I include/
 
 $(TARGET): $(OBJECTS)

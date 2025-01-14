@@ -50,7 +50,7 @@ void dfsTATT(vector<long double> &x,vector<long double> &y,vector<multiset<int>>
 }
 
 void TwiceAroundTheTree(vector<long double> &x, vector<long double> &y) {
-    chrono::time_point begin = std::chrono::high_resolution_clock::now();
+    auto begin = std::chrono::high_resolution_clock::now();
     vector<multiset<int>> adj;
     makeMST(adj,x, y);
 
@@ -67,6 +67,7 @@ void TwiceAroundTheTree(vector<long double> &x, vector<long double> &y) {
     ofstream f("data/tatt.txt", ofstream::app);
     f << x.size() << ' ' << cost << ' ' << duration.count() << '\n';
     f.close();
+    cout << "Cost: " << cost << '\n';
     // cout << "seq:\n0";
     // for(int i=1;i<(int)seq.size();i++) cout << " -> " << seq[i];
     // cout << '\n';
@@ -168,7 +169,7 @@ void Christofides(vector<long double> &x, vector<long double> &y) {
     ofstream f("data/christofides.txt", ofstream::app);
     f << x.size() << ' ' << cost << ' ' << duration.count() << '\n';
     f.close();
-    // cout << "Cost: " << cost << '\n';
+    cout << "Cost: " << cost << '\n';
     // for(auto i = p.begin();i!=p.end();i++) {
     //     if(i!=p.begin()) cout << " -> " << *i;
     //     else cout << *i;
