@@ -1,6 +1,6 @@
-# euclidean_tsp
+# Euclidean Travel Salesman Problem
 
-To install lemon:
+## Installing LEMON:
 
 1. Step into the root of the source directory.
 
@@ -36,5 +36,26 @@ To install lemon:
 
     Else:
 
-       $ make install
+        $ make install
 
+## Compiling and Executing
+1. In the root directory of the repository, compile the program:
+   
+        $ make
+   
+2. To execute, use the following command:
+
+        $ ./main <file> <algorithm>
+
+   #### Parameters:
+
+   - <file\>: Path to a file containing the number of points and their coordinates.
+
+       - The file must be located in the examples/ directory.
+       - It must follow the TSPLIB format. For more details on this format, consult [TSPLIB specification](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf).
+
+   - <algorithm\> : Specifies the algorithm to execute:
+  
+       - 1: Branch and Bound
+       - 2: Twice Around The Tree
+       - 3: Christofides
