@@ -59,3 +59,19 @@
        - 1: Branch and Bound
        - 2: Twice Around The Tree
        - 3: Christofides
+
+### Examples
+
+There is an examples for each algorithm:
+
+- Branch and bound:
+
+        $ ./main demidenko15.tsp 1
+
+- Twice Around The Tree:
+
+        $ ./main d18512.tsp 2
+  
+- Christofides:
+
+        $ ./main berlin52.tsp 3
