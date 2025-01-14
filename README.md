@@ -1,4 +1,4 @@
-# Euclidean Travel Salesman Problem
+# Euclidean Traveling Salesman Problem
 
 ## Installing LEMON:
 
