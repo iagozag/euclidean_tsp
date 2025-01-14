@@ -75,3 +75,9 @@ There is an example for each algorithm:
 - Christofides:
 
         $ ./main berlin52.tsp 3
+
+---
+
+### To read the project documentation, click the button below.
+
+[![View PDF](https://img.shields.io/badge/View-PDF-red)](euclidean_tsp.pdf)
