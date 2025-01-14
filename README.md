@@ -54,7 +54,7 @@
        - The file must be located in the examples/ directory.
        - It must follow the TSPLIB format. For more details on this format, consult [TSPLIB specification](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf).
 
-   - <algorithm\> : Specifies the algorithm to execute:
+   - <algorithm\> : Specifies the algorithm to execute.
   
        - 1: Branch and Bound
        - 2: Twice Around The Tree
@@ -62,7 +62,7 @@
 
 ### Examples
 
-There is an examples for each algorithm:
+There is an example for each algorithm:
 
 - Branch and bound:
 
